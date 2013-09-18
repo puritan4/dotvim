@@ -1,12 +1,13 @@
-# bling.vim
+# puritan4.vim
 
-A highly tuned vim distribution that will blow your socks off!
+My vim configuration. It works for me.
 
 ## introduction
 
-this is my ***personal*** vim distribution that i have tweaked over time and evolved from a simple vanilla vimrc configuration to a full-blown distribution that it is today.
+This is my ***personal*** vim configuration that I forked from bling's original.  It's basically the same thing he does, except much lighter. I've removed everything I don't use in my normal work.  Well, not really everything. I left a few things that I think are interesting or that I'm trying out, but I've removed a bunch.
 
-while it is very easy to install this and get up and running on a brand new machine (a use case i have), i recommend that you do not install this unless you fully understand everything that's going on inside.  scan it for tips and tricks, or fork and customize it for *your* needs.
+If you want the full effect, with more plugins than you can count, get bling's original:
+*  [bling](https://github.com/bling/dotvim)
 
 ## installation
 
@@ -64,11 +65,10 @@ set guifont=Wingdings:h10
 
 ## autocomplete
 
-this distribution will pick one of three combinations, in the following priority:
+this distribution will pick one of two combinations, in the following priority:
 
 1.  [neocomplete][nc] + [neosnippet][ns] if you have `lua` enabled.
-2.  [youcompleteme][ycm] + [ultisnips][us] if you have compiled YCM.
-3.  [neocomplcache][ncl] + [neosnippet][ns] if you only have vimscript available
+2.  [neocomplcache][ncl] + [neosnippet][ns] if you only have vimscript available
 
 this can be overridden with `g:dotvim_settings.autocomplete_method`
 
@@ -127,22 +127,6 @@ this can be overridden with `g:dotvim_settings.autocomplete_method`
   *  `<space>s` quick switch buffer
   *  `<space>/` recursively search all files for matching text (uses `ag` or `ack` if found)
 
-### [bufkill.vim](http://www.vim.org/scripts/script.php?script_id=1147)
-*  `<leader>bd` or `:BD` will kill a buffer without changing the window layout
-
-### [easymotion](https://github.com/skwp/vim-easymotion)
-*  easily jumps to any character on the screen
-*  `<leader><leader>w` or `<leader><leader>e` will do the trick, along with any of the other default bindings that plugin has mapped under `<leader><leader>`
-*  this is a forked version of [lokaltog](https://github.com/skwp/vim-easymotion)'s version which uses vimperator style double keystrokes
-
-### [easygrep](http://www.vim.org/scripts/script.php?script_id=2438)
-*  makes search/replacing in your project a lot easier without relying on `find` and `sed`
-*  the loading time of this plugin is relatively heavy, so it is not loaded at startup.  to load it on-demand, use `<leader>vo`, which opens the options window.
-*  `<leader>vv` find word under the cursor
-*  `<leader>vV` find whole word under the cursor
-*  `<leader>vr` perform global search replace of word under cursor, with confirmation
-*  `<leader>vR` same as vr, but matches whole word
-
 ### [fugitive](https://github.com/tpope/vim-fugitive)
 *  git wrapper
 *  `<leader>gs` status
@@ -155,24 +139,6 @@ this can be overridden with `g:dotvim_settings.autocomplete_method`
 *  `<leader>gr` rm
 *  in addition to all the standard bindings when in the git status window, you can also use `U` to perform a `git checkout --` on the current file
 
-### [gitv](https://github.com/gregsexton/gitv)
-*  nice log history viewer for git
-*  `<leader>gv`
-
-### [unimpaired](https://github.com/tpope/vim-unimpaired)
-*  many additional bracket `[]` maps
-*  `<C-up>` to move lines up
-*  `<C-down>` to move lines down
-
-### [nerdtree](https://github.com/scrooloose/nerdtree)
-*  file browser
-*  `<F2>` toggle browser
-*  `<F3>` open tree to path of the current file
-
-### [tcomment](https://github.com/tomtom/tcomment_vim)
-*  very versatile commenting plugin that can do motions
-*  `gcc` to toggle or `gc{motion}`
-
 ### [ctrlp](https://github.com/kien/ctrlp.vim)
 *  fuzzy file searching
 *  `<C-p>` to bring up the search
@@ -182,32 +148,9 @@ this can be overridden with `g:dotvim_settings.autocomplete_method`
 *  `\b` search open buffers
 *  `\o` parses the current file for functions with [funky](https://github.com/tacahiroy/ctrlp-funky)
 
-### [nrrwrgn](http://github.com/chrisbra/NrrwRgn)
-*  `<leader>nr` puts the current visual selection into a new scratch buffer, allowing you to perform global commands and merge changes to the original file automatically
-
-### [tabular](https://github.com/godlygeek/tabular)
-*  easily aligns code
-*  `<leader>a&`, `<leader>a=`, `<leader>a:`, `<leader>a,`, `<leader>a|`
-
-### [golden-ratio](http://github.com/roman/golden-ratio)
-*  a plugin which automatically resizes all your splits to give the current one the optimal amount of viewing real estate
-*  this plugin will interfere with other plugins which rely on windows, so it is disabled by default and can be toggled on/off with `<F4>`
-
-### [gist](https://github.com/mattn/gist-vim)
-*  automatically get or push changes for gists with `:Gist`
-
-### [zencoding](https://github.com/mattn/zencoding-vim)
-*  makes for writing html/css extremely fast
-*  for supported most filetypes, `<tab>` will be mapped to automatically expand the line (you can use `<C-v><Tab>` to insert a tab character if needed)
-*  for other features, default plugin mappings are available, which means `<C-y>` is the prefix, followed by a variety of options (see `:help zencoding`)
-
 ### [undotree](https://github.com/mbbill/undotree)
 *  visualize the undo tree
 *  `<F5>` to toggle
-
-### [youcompleteme][ycm]/[ultisnips][us]
-*  amazingly fast fuzzy autocomplete engine combined with an excellent snippets library
-*  use `<C-n>` and `<C-p>` to go back/forward between selections, and `<tab>` to expand snippets
 
 ### [neocomplcache][ncl]/[neosnippet][ns]
 *  autocomplete/snippet support as a fallback choice when YCM and/or python is unavailable
@@ -217,18 +160,12 @@ this can be overridden with `g:dotvim_settings.autocomplete_method`
 ### [vimshell](https://github.com/Shougo/vimshell)
 *  `<leader>c` splits a new window with an embedded shell
 
-### [vim-multiple-cursors](https://github.com/terryma/vim-multiple-cursors)
-*  mapped to `<C-N>`, this will select all matching words and lets you concurrently change all matches at the same time
-
 # and some more plugins
 *  [surround](https://github.com/tpope/vim-surround) makes for quick work of surrounds
 *  [repeat](https://github.com/tpope/vim-repeat) repeat plugin commands
-*  [speeddating](https://github.com/tpope/vim-speeddating) `Ctrl+A` and `Ctrl+X` for dates
-*  [gist](https://github.com/mattn/gist-vim) awesome plugin for your gist needs
 *  [signature](https://github.com/kshenoy/vim-signature) shows marks beside line numbers
 *  [matchit](https://github.com/vim-scripts/matchit.zip) makes your `%` more awesome
 *  [syntastic](https://github.com/scrooloose/syntastic) awesome syntax checking for a variety of languages
-*  [bufferline](https://github.com/bling/vim-bufferline) simple plugin which prints all your open buffers in the command bar
 *  [indent-guides](https://github.com/nathanaelkane/vim-indent-guides) vertical lines
 *  [signify](https://github.com/mhinz/vim-signify) adds + and - to the signs column when changes are detected to source control files (supports git/hg/svn)
 *  [delimitmate](https://github.com/Raimondi/delimitMate) automagically adds closing quotes and braces
@@ -241,6 +178,7 @@ this can be overridden with `g:dotvim_settings.autocomplete_method`
 
 i wanted to give special thanks to all of the people who worked on the following projects, or people simply posted their vim distributions, because i learned a lot and took many ideas and incorporated them into my configuration.
 
+*  [bling](https://github.com/bling/dotvim)
 *  [janus](https://github.com/carlhuda/janus)
 *  [spf13](https://github.com/spf13/spf13-vim)
 *  [yadr](http://skwp.github.com/dotfiles/)
@@ -258,13 +196,6 @@ i wanted to give special thanks to all of the people who worked on the following
 ## changelog
 
 *  v1
-  * requires `g:dotvim_settings.version` to be defined
-  * disable all langauge-specific plugins by default
-  * add support for `g:dotvim_settings.plugin_groups_include`
+	* removed all the plugins I don't use.
 
 
-[ycm]: https://github.com/Valloric/YouCompleteMe
-[us]: https://github.com/SirVer/ultisnips
-[nc]: https://github.com/Shougo/neocomplete.vim
-[ncl]: https://github.com/Shougo/neocomplcache.vim
-[ns]: https://github.com/Shougo/neosnippet.vim
