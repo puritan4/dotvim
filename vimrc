@@ -304,12 +304,6 @@
     NeoBundle 'tpope/vim-repeat'
     NeoBundle 'tpope/vim-dispatch'
     NeoBundle 'tpope/vim-eunuch'
-    NeoBundle 'tpope/vim-unimpaired' "{{{
-      nmap <c-up> [e
-      nmap <c-down> ]e
-      vmap <c-up> [egv
-      vmap <c-down> ]egv
-    "}}}
     NeoBundleDepends 'Shougo/vimproc.vim', {
       \ 'build': {
         \ 'mac': 'make -f make_mac.mak',
@@ -320,26 +314,9 @@
     \ }
   endif "}}}
   if count(s:settings.plugin_groups, 'web') "{{{
-    NeoBundleLazy 'groenewege/vim-less', {'autoload':{'filetypes':['less']}}
-    NeoBundleLazy 'cakebaker/scss-syntax.vim', {'autoload':{'filetypes':['scss','sass']}}
-    NeoBundleLazy 'hail2u/vim-css3-syntax', {'autoload':{'filetypes':['css','scss','sass']}}
     NeoBundleLazy 'ap/vim-css-color', {'autoload':{'filetypes':['css','scss','sass','less','styl']}}
     NeoBundleLazy 'othree/html5.vim', {'autoload':{'filetypes':['html']}}
-    NeoBundleLazy 'wavded/vim-stylus', {'autoload':{'filetypes':['styl']}}
-    NeoBundleLazy 'digitaltoad/vim-jade', {'autoload':{'filetypes':['jade']}}
-    NeoBundleLazy 'juvenn/mustache.vim', {'autoload':{'filetypes':['mustache']}}
     NeoBundleLazy 'gregsexton/MatchTag', {'autoload':{'filetypes':['html','xml']}}
-    NeoBundleLazy 'mattn/emmet-vim', {'autoload':{'filetypes':['html','xml','xsl','xslt','xsd','css','sass','scss','less','mustache']}} "{{{
-      function! s:zen_html_tab()
-        let line = getline('.')
-        if match(line, '<.*>') < 0
-          return "\<c-y>,"
-        endif
-        return "\<c-y>n"
-      endfunction
-      autocmd FileType xml,xsl,xslt,xsd,css,sass,scss,less,mustache imap <buffer><tab> <c-y>,
-      autocmd FileType html imap <buffer><expr><tab> <sid>zen_html_tab()
-    "}}}
   endif "}}}
   if count(s:settings.plugin_groups, 'javascript') "{{{
     NeoBundleLazy 'marijnh/tern_for_vim', {
@@ -355,9 +332,7 @@
     NeoBundleLazy 'maksimr/vim-jsbeautify', {'autoload':{'filetypes':['javascript']}} "{{{
       nnoremap <leader>fjs :call JsBeautify()<cr>
     "}}}
-    NeoBundleLazy 'leafgarland/typescript-vim', {'autoload':{'filetypes':['typescript']}}
     NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':['coffee']}}
-    NeoBundleLazy 'mmalecki/vim-node.js', {'autoload':{'filetypes':['javascript']}}
     NeoBundleLazy 'leshill/vim-json', {'autoload':{'filetypes':['javascript','json']}}
     NeoBundleLazy 'othree/javascript-libraries-syntax.vim', {'autoload':{'filetypes':['javascript','coffee','ls','typescript']}}
   endif "}}}
@@ -373,10 +348,6 @@
       let g:jedi#popup_on_dot=0
     "}}}
   endif "}}}
-  if count(s:settings.plugin_groups, 'scala') "{{{
-    NeoBundle 'derekwyatt/vim-scala'
-    NeoBundle 'megaannum/vimside'
-  endif "}}}
   if count(s:settings.plugin_groups, 'go') "{{{
     NeoBundleLazy 'jnwhiteh/vim-golang', {'autoload':{'filetypes':['go']}}
     NeoBundleLazy 'nsf/gocode', {'autoload': {'filetypes':['go']}, 'rtp': 'vim'}
@@ -385,9 +356,6 @@
     NeoBundle 'mhinz/vim-signify' "{{{
       let g:signify_update_on_bufenter=0
     "}}}
-    if executable('hg')
-      NeoBundle 'bitbucket:ludovicchabant/vim-lawrencium'
-    endif
     NeoBundle 'tpope/vim-fugitive' "{{{
       nnoremap <silent> <leader>gs :Gstatus<CR>
       nnoremap <silent> <leader>gd :Gdiff<CR>
@@ -400,37 +368,8 @@
       autocmd FileType gitcommit nmap <buffer> U :Git checkout -- <C-r><C-g><CR>
       autocmd BufReadPost fugitive://* set bufhidden=delete
     "}}}
-    NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive'], 'autoload':{'commands':'Gitv'}} "{{{
-      nnoremap <silent> <leader>gv :Gitv<CR>
-      nnoremap <silent> <leader>gV :Gitv!<CR>
-    "}}}
   endif "}}}
   if count(s:settings.plugin_groups, 'autocomplete') "{{{
-    NeoBundle 'honza/vim-snippets'
-    if s:settings.autocomplete_method == 'ycm' "{{{
-      NeoBundle 'Valloric/YouCompleteMe', {'vim_version':'7.3.584'} "{{{
-        let g:ycm_complete_in_comments_and_strings=1
-        let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
-        let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
-        let g:ycm_filetype_blacklist={'unite': 1}
-      "}}}
-      NeoBundle 'SirVer/ultisnips' "{{{
-        let g:UltiSnipsExpandTrigger="<tab>"
-        let g:UltiSnipsJumpForwardTrigger="<tab>"
-        let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-        let g:UltiSnipsSnippetsDir='~/.vim/snippets'
-      "}}}
-    else
-      NeoBundle 'Shougo/neosnippet.vim' "{{{
-        let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/snippets'
-        let g:neosnippet#enable_snipmate_compatibility=1
-
-        imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ? "\<C-n>" : "\<TAB>")
-        smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-        imap <expr><S-TAB> pumvisible() ? "\<C-p>" : ""
-        smap <expr><S-TAB> pumvisible() ? "\<C-p>" : ""
-      "}}}
-    endif "}}}
     if s:settings.autocomplete_method == 'neocomplete' "{{{
       NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload':{'insert':1}, 'vim_version':'7.3.885'} "{{{
         let g:neocomplete#enable_at_startup=1
@@ -448,47 +387,16 @@
   if count(s:settings.plugin_groups, 'editing') "{{{
     NeoBundleLazy 'editorconfig/editorconfig-vim', {'autoload':{'insert':1}}
     NeoBundle 'tpope/vim-endwise'
-    NeoBundle 'tpope/vim-speeddating'
     NeoBundle 'thinca/vim-visualstar'
-    NeoBundle 'tomtom/tcomment_vim'
     NeoBundle 'terryma/vim-expand-region'
-    NeoBundle 'terryma/vim-multiple-cursors'
-    NeoBundle 'chrisbra/NrrwRgn'
     NeoBundle 'dahu/vim-fanfingtastic'
-    NeoBundleLazy 'godlygeek/tabular', {'autoload':{'commands':'Tabularize'}} "{{{
-      nmap <Leader>a& :Tabularize /&<CR>
-      vmap <Leader>a& :Tabularize /&<CR>
-      nmap <Leader>a= :Tabularize /=<CR>
-      vmap <Leader>a= :Tabularize /=<CR>
-      nmap <Leader>a: :Tabularize /:<CR>
-      vmap <Leader>a: :Tabularize /:<CR>
-      nmap <Leader>a:: :Tabularize /:\zs<CR>
-      vmap <Leader>a:: :Tabularize /:\zs<CR>
-      nmap <Leader>a, :Tabularize /,<CR>
-      vmap <Leader>a, :Tabularize /,<CR>
-      nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-      vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-    "}}}
     NeoBundle 'jiangmiao/auto-pairs'
-    NeoBundle 'skwp/vim-easymotion' "{{{
-      " NeoBundle 'Lokaltog/vim-easymotion'
-      let g:EasyMotion_keys = 'asdfghjklqwertyuiopzxcvbnm'
-
-      autocmd ColorScheme * highlight EasyMotionTarget ctermfg=32 guifg=#0087df
-      autocmd ColorScheme * highlight EasyMotionShade ctermfg=237 guifg=#3a3a3a
-    "}}}
   endif "}}}
   if count(s:settings.plugin_groups, 'navigation') "{{{
     NeoBundleLazy 'mbbill/undotree', {'autoload':{'commands':'UndotreeToggle'}} "{{{
       let g:undotree_SplitLocation='botright'
       let g:undotree_SetFocusWhenToggle=1
       nnoremap <silent> <F5> :UndotreeToggle<CR>
-    "}}}
-    NeoBundleLazy 'EasyGrep', {'autoload':{'commands':'GrepOptions'}} "{{{
-      let g:EasyGrepRecursive=1
-      let g:EasyGrepAllOptionsInExplorer=1
-      let g:EasyGrepCommand=1
-      nnoremap <leader>vo :GrepOptions<cr>
     "}}}
     NeoBundle 'kien/ctrlp.vim', { 'depends': 'tacahiroy/ctrlp-funky' } "{{{
       let g:ctrlp_clear_cache_on_exit=1
@@ -512,20 +420,6 @@
       nnoremap [ctrlp]l :CtrlPLine<cr>
       nnoremap [ctrlp]o :CtrlPFunky<cr>
       nnoremap [ctrlp]b :CtrlPBuffer<cr>
-    "}}}
-    NeoBundleLazy 'scrooloose/nerdtree', {'autoload':{'commands':['NERDTreeToggle','NERDTreeFind']}} "{{{
-      let NERDTreeShowHidden=1
-      let NERDTreeQuitOnOpen=0
-      let NERDTreeShowLineNumbers=1
-      let NERDTreeChDirMode=0
-      let NERDTreeShowBookmarks=1
-      let NERDTreeIgnore=['\.git','\.hg']
-      let NERDTreeBookmarksFile='~/.vim/.cache/NERDTreeBookmarks'
-      nnoremap <F2> :NERDTreeToggle<CR>
-      nnoremap <F3> :NERDTreeFind<CR>
-    "}}}
-    NeoBundleLazy 'majutsushi/tagbar', {'autoload':{'commands':'TagbarToggle'}} "{{{
-      nnoremap <silent> <F9> :TagbarToggle<CR>
     "}}}
   endif "}}}
   if count(s:settings.plugin_groups, 'unite') "{{{
@@ -618,26 +512,11 @@
       endif
     "}}}
   endif "}}}
-  if count(s:settings.plugin_groups, 'textobj') "{{{
-    NeoBundleDepends 'kana/vim-textobj-user'
-    NeoBundle 'kana/vim-textobj-indent'
-    NeoBundle 'kana/vim-textobj-entire'
-    NeoBundle 'lucapette/vim-textobj-underscore'
-  endif "}}}
   if count(s:settings.plugin_groups, 'misc') "{{{
     if exists('$TMUX')
       NeoBundle 'christoomey/vim-tmux-navigator'
     endif
-    NeoBundle 'kana/vim-vspec'
-    NeoBundleLazy 'tpope/vim-scriptease', {'autoload':{'filetypes':['vim']}}
-    NeoBundleLazy 'tpope/vim-markdown', {'autoload':{'filetypes':['markdown']}}
-    if executable('redcarpet') && executable('instant-markdown-d')
-      NeoBundleLazy 'suan/vim-instant-markdown', {'autoload':{'filetypes':['markdown']}}
-    endif
     NeoBundleLazy 'guns/xterm-color-table.vim', {'autoload':{'commands':'XtermColorTable'}}
-    NeoBundle 'chrisbra/vim_faq'
-    NeoBundle 'vimwiki'
-    NeoBundle 'bufkill.vim'
     NeoBundle 'mhinz/vim-startify' "{{{
       let g:startify_session_dir = '~/.vim/.cache/sessions'
       let g:startify_change_to_vcs_root = 1
@@ -649,10 +528,6 @@
       let g:syntastic_style_error_symbol = '✠'
       let g:syntastic_warning_symbol = '∆'
       let g:syntastic_style_warning_symbol = '≈'
-    "}}}
-    NeoBundleLazy 'mattn/gist-vim', { 'depends': 'mattn/webapi-vim', 'autoload': { 'commands': 'Gist' } } "{{{
-      let g:gist_post_private=1
-      let g:gist_show_privates=1
     "}}}
     NeoBundleLazy 'Shougo/vimshell.vim', {'autoload':{'commands':[ 'VimShell', 'VimShellInteractive' ]}} "{{{
       if s:is_macvim
@@ -670,10 +545,6 @@
       nnoremap <leader>cl :VimShellInteractive lua<cr>
       nnoremap <leader>cr :VimShellInteractive irb<cr>
       nnoremap <leader>cp :VimShellInteractive python<cr>
-    "}}}
-    NeoBundleLazy 'zhaocai/GoldenView.Vim', {'autoload':{'mappings':['<Plug>ToggleGoldenViewAutoResize']}} "{{{
-      let g:goldenview__enable_default_mapping=0
-      nmap <F4> <Plug>ToggleGoldenViewAutoResize
     "}}}
   endif "}}}
   if count(s:settings.plugin_groups, 'windows') "{{{
@@ -831,17 +702,9 @@
 "}}}
 
 " color schemes {{{
-  NeoBundle 'altercation/vim-colors-solarized' "{{{
-    let g:solarized_termcolors=256
-    let g:solarized_termtrans=1
-  "}}}
   NeoBundle 'nanotech/jellybeans.vim'
   NeoBundle 'tomasr/molokai'
   NeoBundle 'chriskempson/vim-tomorrow-theme'
-  NeoBundle 'chriskempson/base16-vim'
-  NeoBundle 'w0ng/vim-hybrid'
-  NeoBundle 'sjl/badwolf'
-  NeoBundle 'jelera/vim-gummybears-colorscheme'
   NeoBundle 'zeis/vim-kolor' "{{{
     let g:kolor_underlined=1
   "}}}
