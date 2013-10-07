@@ -229,6 +229,7 @@
 " ui configuration {{{
   set showmatch                                       "automatically highlight matching braces/brackets/etc.
   set matchtime=2                                     "tens of a second to show matching parentheses
+	set relativenumber
   set number
   set lazyredraw
   set laststatus=2
