@@ -372,16 +372,9 @@
   endif "}}}
   if count(s:settings.plugin_groups, 'autocomplete') "{{{
     if s:settings.autocomplete_method == 'neocomplete' "{{{
-      NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload':{'insert':1}, 'vim_version':'7.3.885'} "{{{
+      NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload':{'insert':1}, 'vim_version':'7.4'} "{{{
         let g:neocomplete#enable_at_startup=1
         let g:neocomplete#data_directory='~/.vim/.cache/neocomplete'
-      "}}}
-    endif "}}}
-    if s:settings.autocomplete_method == 'neocomplcache' "{{{
-      NeoBundleLazy 'Shougo/neocomplcache.vim', {'autoload':{'insert':1}} "{{{
-        let g:neocomplcache_enable_at_startup=1
-        let g:neocomplcache_temporary_dir='~/.vim/.cache/neocomplcache'
-        let g:neocomplcache_enable_fuzzy_completion=1
       "}}}
     endif "}}}
   endif "}}}
