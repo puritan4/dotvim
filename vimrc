@@ -24,11 +24,6 @@
   let s:settings.autocomplete_method = 'neocomplcache'
   let s:settings.enable_cursorcolumn = 0
   let s:settings.colorscheme = 'jellybeans'
-  if has('lua')
-    let s:settings.autocomplete_method = 'neocomplete'
-  elseif filereadable(expand("~/.vim/bundle/YouCompleteMe/python/ycm_core.*"))
-    let s:settings.autocomplete_method = 'ycm'
-  endif
 
   if exists('g:dotvim_settings.plugin_groups')
     let s:settings.plugin_groups = g:dotvim_settings.plugin_groups
@@ -370,14 +365,6 @@
       autocmd BufReadPost fugitive://* set bufhidden=delete
     "}}}
   endif "}}}
-  if count(s:settings.plugin_groups, 'autocomplete') "{{{
-    if s:settings.autocomplete_method == 'neocomplete' "{{{
-      NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload':{'insert':1}, 'vim_version':'7.4'} "{{{
-        let g:neocomplete#enable_at_startup=1
-        let g:neocomplete#data_directory='~/.vim/.cache/neocomplete'
-      "}}}
-    endif "}}}
-  endif "}}}
   if count(s:settings.plugin_groups, 'editing') "{{{
     NeoBundleLazy 'editorconfig/editorconfig-vim', {'autoload':{'insert':1}}
     NeoBundle 'tpope/vim-endwise'
@@ -511,12 +498,6 @@
       NeoBundle 'christoomey/vim-tmux-navigator'
     endif
     NeoBundleLazy 'guns/xterm-color-table.vim', {'autoload':{'commands':'XtermColorTable'}}
-    NeoBundle 'mhinz/vim-startify' "{{{
-      let g:startify_session_dir = '~/.vim/.cache/sessions'
-      let g:startify_change_to_vcs_root = 1
-      let g:startify_show_sessions = 1
-      nnoremap <F1> :Startify<cr>
-    "}}}
     NeoBundle 'scrooloose/syntastic' "{{{
       let g:syntastic_error_symbol = '✗'
       let g:syntastic_style_error_symbol = '✠'
