@@ -1,3 +1,11 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =1
-let g:netrw_dirhist_1='/home/sleslie/.vim'
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/home'
+let g:netrw_dirhist_2='/'
+let g:netrw_dirhist_3='/home'
+let g:netrw_dirhist_4='/home/sleslie'
+let g:netrw_dirhist_5='/home/sleslie/src'
+let g:netrw_dirhist_6='/home/sleslie/.oh-my-zsh'
+let g:netrw_dirhist_7='/home/sleslie'
+let g:netrw_dirhist_8='/home/sleslie/Documents'
+let g:netrw_dirhist_9='/home/sleslie/Documents/DEV_INFO'

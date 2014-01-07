@@ -3,7 +3,6 @@
 " detect OS {{{
   let s:is_windows = has('win32') || has('win64')
   let s:is_cygwin = has('win32unix')
-  let s:is_macvim = has('gui_macvim')
 "}}}
 
 " dotvim settings {{{
@@ -77,6 +76,13 @@
 " setup & neobundle {{{
   set nocompatible
   set all& "reset everything to their defaults
+	let neobundle_readme=expand('~/.vim/bundle/neobundle.vim/README.md')
+	if !filereadable(neobundle_readme)
+		echo "Installing NeoBundle..."
+		echo ""
+		silent !mkdir -p ~/.vim/bundle
+		silent !git clone https://github.com/Shougo/neobundle.vim.git ~/.vim/bundle/neobundle.vim
+	endif
   if s:is_windows
     set rtp+=~/.vim
   endif
@@ -86,38 +92,9 @@
 "}}}
 
 " functions {{{
-  function! Preserve(command) "{{{
-    " preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " do the business:
-    execute a:command
-    " clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
-  endfunction "}}}
-  function! StripTrailingWhitespace() "{{{
-    call Preserve("%s/\\s\\+$//e")
-  endfunction "}}}
   function! EnsureExists(path) "{{{
     if !isdirectory(expand(a:path))
       call mkdir(expand(a:path))
-    endif
-  endfunction "}}}
-  function! CloseWindowOrKillBuffer() "{{{
-    let number_of_windows_to_this_buffer = len(filter(range(1, winnr('$')), "winbufnr(v:val) == bufnr('%')"))
-
-    " never bdelete a nerd tree
-    if matchstr(expand("%"), 'NERD') == 'NERD'
-      wincmd c
-      return
-    endif
-
-    if number_of_windows_to_this_buffer > 1
-      wincmd c
-    else
-      bdelete
     endif
   endfunction "}}}
 "}}}
@@ -176,6 +153,8 @@
 
   set splitbelow
   set splitright
+
+	let g:matchparen_insert_timeout=5
 
   " disable sounds
   set noerrorbells
@@ -251,7 +230,7 @@
 
   if has('gui_running')
     " open maximized
-    set lines=999 columns=9999
+    set lines=55 columns=120
     if s:is_windows
       autocmd GUIEnter * simalt ~x
     endif
@@ -259,31 +238,19 @@
     set guioptions+=t                                 "tear off menu items
     set guioptions-=T                                 "toolbar icons
 
-    if s:is_macvim
-      set gfn=Ubuntu_Mono:h14
-      set transparency=2
-    endif
-
     if s:is_windows
       set gfn=Ubuntu_Mono:h10
     endif
 
     if has('gui_gtk')
-      set gfn=Ubuntu\ Mono\ 11
+      set gfn=Ubuntu\ Mono\ 12
     endif
   else
     if $COLORTERM == 'gnome-terminal'
       set t_Co=256 "why you no tell me correct colors?!?!
     endif
-    if $TERM_PROGRAM == 'iTerm.app'
-      " different cursors for insert vs normal mode
-      if exists('$TMUX')
-        let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-        let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-      else
-        let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-        let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-      endif
+    if $COLORTERM == 'Terminal'
+      set t_Co=256 "why you no tell me correct colors?!?!
     endif
   endif
 "}}}
@@ -296,13 +263,8 @@
       let g:airline#extensions#tabline#left_sep=' '
       let g:airline#extensions#tabline#left_alt_sep='¦'
     "}}}
-    NeoBundle 'tpope/vim-surround'
-    NeoBundle 'tpope/vim-repeat'
-    NeoBundle 'tpope/vim-dispatch'
-    NeoBundle 'tpope/vim-eunuch'
     NeoBundleDepends 'Shougo/vimproc.vim', {
       \ 'build': {
-        \ 'mac': 'make -f make_mac.mak',
         \ 'unix': 'make -f make_unix.mak',
         \ 'cygwin': 'make -f make_cygwin.mak',
         \ 'windows': '"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\nmake.exe" make_msvc32.mak',
@@ -315,15 +277,6 @@
     NeoBundleLazy 'gregsexton/MatchTag', {'autoload':{'filetypes':['html','xml']}}
   endif "}}}
   if count(s:settings.plugin_groups, 'javascript') "{{{
-    NeoBundleLazy 'marijnh/tern_for_vim', {
-      \ 'autoload': { 'filetypes': ['javascript'] },
-      \ 'build': {
-        \ 'mac': 'npm install',
-        \ 'unix': 'npm install',
-        \ 'cygwin': 'npm install',
-        \ 'windows': 'npm install',
-      \ },
-    \ }
     NeoBundleLazy 'pangloss/vim-javascript', {'autoload':{'filetypes':['javascript']}}
     NeoBundleLazy 'maksimr/vim-jsbeautify', {'autoload':{'filetypes':['javascript']}} "{{{
       nnoremap <leader>fjs :call JsBeautify()<cr>
@@ -366,12 +319,7 @@
     "}}}
   endif "}}}
   if count(s:settings.plugin_groups, 'editing') "{{{
-    NeoBundleLazy 'editorconfig/editorconfig-vim', {'autoload':{'insert':1}}
     NeoBundle 'tpope/vim-endwise'
-    NeoBundle 'thinca/vim-visualstar'
-    NeoBundle 'terryma/vim-expand-region'
-    NeoBundle 'dahu/vim-fanfingtastic'
-    NeoBundle 'jiangmiao/auto-pairs'
   endif "}}}
   if count(s:settings.plugin_groups, 'navigation') "{{{
     NeoBundleLazy 'mbbill/undotree', {'autoload':{'commands':'UndotreeToggle'}} "{{{
@@ -431,8 +379,6 @@
 
       function! s:unite_settings()
         nmap <buffer> Q <plug>(unite_exit)
-        nmap <buffer> <esc> <plug>(unite_exit)
-        imap <buffer> <esc> <plug>(unite_exit)
       endfunction
       autocmd FileType unite call s:unite_settings()
 
@@ -497,36 +443,12 @@
     if exists('$TMUX')
       NeoBundle 'christoomey/vim-tmux-navigator'
     endif
-    NeoBundleLazy 'guns/xterm-color-table.vim', {'autoload':{'commands':'XtermColorTable'}}
     NeoBundle 'scrooloose/syntastic' "{{{
       let g:syntastic_error_symbol = '✗'
       let g:syntastic_style_error_symbol = '✠'
       let g:syntastic_warning_symbol = '∆'
       let g:syntastic_style_warning_symbol = '≈'
     "}}}
-    NeoBundleLazy 'Shougo/vimshell.vim', {'autoload':{'commands':[ 'VimShell', 'VimShellInteractive' ]}} "{{{
-      if s:is_macvim
-        let g:vimshell_editor_command='mvim'
-      else
-        let g:vimshell_editor_command='vim'
-      endif
-      let g:vimshell_right_prompt='getcwd()'
-      let g:vimshell_temporary_directory='~/.vim/.cache/vimshell'
-      let g:vimshell_vimshrc_path='~/.vim/vimshrc'
-
-      nnoremap <leader>c :VimShell -split<cr>
-      nnoremap <leader>cc :VimShell -split<cr>
-      nnoremap <leader>cn :VimShellInteractive node<cr>
-      nnoremap <leader>cl :VimShellInteractive lua<cr>
-      nnoremap <leader>cr :VimShellInteractive irb<cr>
-      nnoremap <leader>cp :VimShellInteractive python<cr>
-    "}}}
-  endif "}}}
-  if count(s:settings.plugin_groups, 'windows') "{{{
-    NeoBundleLazy 'PProvost/vim-ps1', {'autoload':{'filetypes':['ps1']}} "{{{
-      autocmd BufNewFile,BufRead *.ps1,*.psd1,*.psm1 setlocal ft=ps1
-    "}}}
-    NeoBundleLazy 'nosami/Omnisharp', {'autoload':{'filetypes':['cs']}}
   endif "}}}
 
   nnoremap <leader>nbu :Unite neobundle/update -vertical -no-start-insert<cr>
@@ -534,8 +456,6 @@
 
 " mappings {{{
   " formatting shortcuts
-  nmap <leader>fef :call Preserve("normal gg=G")<CR>
-  nmap <leader>f$ :call StripTrailingWhitespace()<CR>
   vmap <leader>s :sort<cr>
 
   " toggle paste
@@ -628,9 +548,6 @@
 
   " hide annoying quit message
   nnoremap <C-c> <C-c>:echo<cr>
-
-  " window killer
-  nnoremap <silent> Q :call CloseWindowOrKillBuffer()<cr>
 
   " quick buffer open
   nnoremap gb :ls<cr>:e #
