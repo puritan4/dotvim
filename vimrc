@@ -20,7 +20,7 @@
   let s:settings = {}
   let s:settings.default_indent = 2
   let s:settings.max_column = 120
-  let s:settings.autocomplete_method = 'neocomplcache'
+  let s:settings.autocomplete_method = 'neocomplete'
   let s:settings.enable_cursorcolumn = 0
   let s:settings.colorscheme = 'jellybeans'
 
@@ -443,6 +443,14 @@
     if exists('$TMUX')
       NeoBundle 'christoomey/vim-tmux-navigator'
     endif
+		if s:settings.autocomplete_method == 'neocomplete' "{{{
+			if has('lua')
+				NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload':{'insert':1}, 'vim_version':'7.3.885'} "{{{
+					let g:neocomplete#enable_at_startup=1
+					let g:neocomplete#data_directory='~/.vim/.cache/neocomplete'
+				"}}}
+		endif
+    endif "}}}
     NeoBundle 'scrooloose/syntastic' "{{{
       let g:syntastic_error_symbol = '✗'
       let g:syntastic_style_error_symbol = '✠'
