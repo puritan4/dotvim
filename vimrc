@@ -22,7 +22,8 @@
   let s:settings.max_column = 120
   let s:settings.autocomplete_method = 'neocomplete'
   let s:settings.enable_cursorcolumn = 0
-  let s:settings.colorscheme = 'jellybeans'
+  let s:settings.colorscheme = 'Tomorrow-Night'
+  "let s:settings.colorscheme = 'jellybeans'
 
   if exists('g:dotvim_settings.plugin_groups')
     let s:settings.plugin_groups = g:dotvim_settings.plugin_groups
@@ -100,6 +101,7 @@
 "}}}
 
 " base configuration {{{
+	set background=dark
   set timeoutlen=300                                  "mapping timeout
   set ttimeoutlen=50                                  "keycode timeout
 
@@ -116,7 +118,7 @@
   endif
   set hidden                                          "allow buffer switching without saving
   set autoread                                        "auto reload if file saved externally
-  set fileformats+=mac                                "add mac to auto-detection of file format line endings
+  "set fileformats+=mac                                "add mac to auto-detection of file format line endings
   set nrformats-=octal                                "always assume decimal numbers
   set showcmd
   set tags=tags;/
@@ -257,6 +259,7 @@
 
 " plugin/mapping configuration {{{
   if count(s:settings.plugin_groups, 'core') "{{{
+		NeoBundle 'Konfekt/FastFold'
     NeoBundle 'matchit.zip'
     NeoBundle 'bling/vim-airline' "{{{
       let g:airline#extensions#tabline#enabled = 1
@@ -327,29 +330,29 @@
       let g:undotree_SetFocusWhenToggle=1
       nnoremap <silent> <F5> :UndotreeToggle<CR>
     "}}}
-    NeoBundle 'kien/ctrlp.vim', { 'depends': 'tacahiroy/ctrlp-funky' } "{{{
-      let g:ctrlp_clear_cache_on_exit=1
-      let g:ctrlp_max_height=40
-      let g:ctrlp_show_hidden=0
-      let g:ctrlp_follow_symlinks=1
-      let g:ctrlp_working_path_mode=0
-      let g:ctrlp_max_files=20000
-      let g:ctrlp_cache_dir='~/.vim/.cache/ctrlp'
-      let g:ctrlp_reuse_window='startify'
-      let g:ctrlp_extensions=['funky']
-      if executable('ag')
-        let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
-      endif
+    "NeoBundle 'kien/ctrlp.vim', { 'depends': 'tacahiroy/ctrlp-funky' } "{{{
+    "  let g:ctrlp_clear_cache_on_exit=1
+    "  let g:ctrlp_max_height=40
+    "  let g:ctrlp_show_hidden=0
+    "  let g:ctrlp_follow_symlinks=1
+    "  let g:ctrlp_working_path_mode=0
+    "  let g:ctrlp_max_files=20000
+    "  let g:ctrlp_cache_dir='~/.vim/.cache/ctrlp'
+    "  let g:ctrlp_reuse_window='startify'
+    "  let g:ctrlp_extensions=['funky']
+    "  if executable('ag')
+    "    let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
+    "  endif
 
-      nmap \ [ctrlp]
-      nnoremap [ctrlp] <nop>
+    "  nmap \ [ctrlp]
+    "  nnoremap [ctrlp] <nop>
 
-      nnoremap [ctrlp]t :CtrlPBufTag<cr>
-      nnoremap [ctrlp]T :CtrlPTag<cr>
-      nnoremap [ctrlp]l :CtrlPLine<cr>
-      nnoremap [ctrlp]o :CtrlPFunky<cr>
-      nnoremap [ctrlp]b :CtrlPBuffer<cr>
-    "}}}
+    "  nnoremap [ctrlp]t :CtrlPBufTag<cr>
+    "  nnoremap [ctrlp]T :CtrlPTag<cr>
+    "  nnoremap [ctrlp]l :CtrlPLine<cr>
+    "  nnoremap [ctrlp]o :CtrlPFunky<cr>
+    "  nnoremap [ctrlp]b :CtrlPBuffer<cr>
+    ""}}}
   endif "}}}
   if count(s:settings.plugin_groups, 'unite') "{{{
     NeoBundle 'Shougo/unite.vim' "{{{
@@ -603,6 +606,7 @@
 
 " color schemes {{{
   NeoBundle 'nanotech/jellybeans.vim'
+  NeoBundle 'altercation/vim-colors-solarized'
   NeoBundle 'tomasr/molokai'
   NeoBundle 'chriskempson/vim-tomorrow-theme'
   NeoBundle 'zeis/vim-kolor' "{{{
